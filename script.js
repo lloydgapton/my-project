@@ -2,26 +2,34 @@ function compute()
 {
     var principal = document.getElementById("principal").value;
 
-    //Check to see if principal has positive, 0, or negative value (needs positive to work)
-   if(principal < 1){
-       alert("Enter a positive value");
-       document.getElementById("principal").focus();
-       return false;
-   }
+    if(principal == "" || principal <= 0)
+    {
+        alert("Enter a positive number");
+        document.getElementById("principal").focus();
+        return;
+    }
+
     var rate = document.getElementById("rate").value;
     var years = document.getElementById("years").value;
-    //Calculate interest
-    var interest = principal * years * rate /100;
-    var year = new Date().getFullYear()+parseInt(years) ;
-    var amount = interest
-    //Display result, use <mark> to highlight numbers in the result
-    document.getElementById("result").innerHTML="If you deposit <mark>"+principal+"</mark>,\<br\>at an interest rate of <mark>"+rate+"</mark>%\<br\>You will receive an amount of <mark>"+amount+"</mark>,\<br\>in the year <mark>"+year+"</mark>.\<br\>"
+    var interest = principal * years * rate / 100;
 
+    var dateNow = new Date();
+    var yearNow = parseInt(dateNow.getFullYear()) + parseInt(years);
+    
+    var resultDisplay = document.getElementById("result");
+    resultDisplay.innerHTML = "If you deposit " + "<span class='highlight'>" + principal + "</span>."  + ", <br> at an interest rate of "+ "<span class='highlight'>" + rate + "</span>%." + "<br> You will receive an amount of " + "<span class='highlight'>" + interest + "</span>" + ", <br> in the year " + "<span class='highlight'>" + yearNow + "</span>";
 }
-// For value change of percentage to the right of the slider bar when it is moved left or right.
-function updateRate() 
+
+function SliderValue()
 {
-    var ratenew = document.getElementById("rate").value;
-    document.getElementById("rate_val").innerText=+ratenew+"%";
+    var slider = document.getElementById("rate");
+    var output = document.getElementById("rate_display");
+    output.innerHTML = slider.value; // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
+    slider.oninput = function() 
+    {
+        output.innerHTML = this.value;
+    }  
 }
 
